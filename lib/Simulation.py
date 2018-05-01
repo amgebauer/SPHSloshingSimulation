@@ -8,7 +8,7 @@ class Simulation:
         self.H = 0.4
         self.h = 0.1
 
-        self.dt = 0.01
+        self.dt = 0.001
         self.T_end = 10
 
         self.motion = self.default_motion
@@ -22,12 +22,20 @@ class Simulation:
     def create_input_file(self):
         dict = {}
 
-        dict['def_point_min_x'] = str(-self.R-0.05)
-        dict['def_point_min_y'] = str(-self.R-0.05)
-        dict['def_point_min_z'] = str(-0.05)
-        dict['def_point_max_x'] = str(self.R+0.05)
-        dict['def_point_max_y'] = str(self.R+0.05)
-        dict['def_point_max_z'] = str(self.H+0.05)
+        dict['def_point_min_x'] = str(-self.R-self.motion_R-0.1)
+        dict['def_point_min_y'] = str(-self.R-self.motion_R-0.1)
+        dict['def_point_min_z'] = str(-0.1)
+        dict['def_point_max_x'] = str(self.R+self.motion_R+0.1)
+        dict['def_point_max_y'] = str(self.R+self.motion_R+0.1)
+        dict['def_point_max_z'] = str(self.H+0.1)
+
+        dict['sim_min_x'] = str(-self.R-self.motion_R-0.05)
+        dict['sim_min_y'] = str(-self.R-self.motion_R-0.05)
+        dict['sim_min_z'] = str(-0.05)
+        dict['sim_max_x'] = str(self.R+self.motion_R+0.05)
+        dict['sim_max_y'] = str(self.R+self.motion_R+0.05)
+        dict['sim_max_z'] = str(self.H+0.05)
+
 
         dict['R'] = str(self.R)
         dict['H'] = str(self.H)
@@ -44,7 +52,7 @@ class Simulation:
     def create_motion_file(self):
         motion_file = open('run/motion.dat', 'w+')
 
-        motion_file.writelines('time;dispx;dispy;dispz\r\n')
+        motion_file.writelines('#time;dispx;dispy;dispz\r\n')
 
         t = 0.0
 
@@ -85,6 +93,6 @@ class Simulation:
             pos_y *= t
             pos_z *= t
 
-        return t, 0.0, 0.0
+        #return t, 0.0, 0.0
 
-        #return pos_x, pos_y, pos_z
+        return pos_x, pos_y, pos_z

@@ -39,23 +39,26 @@
                         <point x="0" y="0" z="{H}" /> <!-- z: H -->
                     </drawcylinder>
                     <shapeout file="Box"/>
+
+                    <!-- Create particles at the overall boundary in order to prevent boundary particle out -->
+                    <setmkbound mk="2" />
+                    <drawpoint x="{sim_min_x}" y="{sim_min_y}" z="{sim_min_z}" />
+                    <drawpoint x="{sim_min_x}" y="{sim_max_y}" z="{sim_min_z}" />
+                    <drawpoint x="{sim_max_x}" y="{sim_min_y}" z="{sim_min_z}" />
+                    <drawpoint x="{sim_max_x}" y="{sim_max_y}" z="{sim_min_z}" />
+                    <drawpoint x="{sim_min_x}" y="{sim_min_y}" z="{sim_max_z}" />
+                    <drawpoint x="{sim_min_x}" y="{sim_max_y}" z="{sim_max_z}" />
+                    <drawpoint x="{sim_max_x}" y="{sim_min_y}" z="{sim_max_z}" />
+                    <drawpoint x="{sim_max_x}" y="{sim_max_y}" z="{sim_max_z}" />
                 </mainlist>
             </commands>
         </geometry>
         <motion>
-            <!--<objreal ref="1">
-                <begin mov="1" start="0" finish="{T_end}">
+            <objreal ref="1">
+                <begin mov="1" start="0" finish="{T_end}" />
                 <mvpredef id="1" duration="{T_end}">
                     <file name="motion.dat" fields="4" fieldtime="0" fieldx="1" fieldy="2" fieldz="3" />
                 </mvpredef>
-            </objreal>-->
-            <objreal ref="1">
-                <begin mov="1" start="0" finish="{T_end}">
-                <mvrotfile id="1" duration="{T_end}" anglesunits="degrees">
-                    <file name="CaseSloshingMotionData.dat" />
-                    <axisp1 x="0" y="-1" z="0" />
-                    <axisp2 x="0" y="1" z="0" />
-                </mvrotfile>
             </objreal>
         </motion>
     </casedef>
