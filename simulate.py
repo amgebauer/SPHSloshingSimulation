@@ -6,6 +6,7 @@ from lib.Simulation import Simulation
 
 # executables depend on the platform
 if os.name == 'nt':
+    # if you are using WINDOWS, set the executable names here
     raise RuntimeError("Windows executables are not added yet")
 else:
     exec_gencase = "GenCase4_linux64"
