@@ -129,7 +129,7 @@ class Simulation:
         shutil.copy(os.path.join('run', 'motion.dat'), os.path.join(outdir, 'motion.dat'))
 
         # execute Gencase
-        cmd = '{0} {1} {2} -save:all -dp:{3}'.format(DualSPHysicsExecutables.GenCase, os.path.join(rundir, 'input'), os.path.join(outdir, 'sim'), self.dp)
+        cmd = '{0} {1} {2} -save:all -dp:{3}'.format(DualSPHysicsExecutables.GenCase, os.path.join(DualSPHysicsExecutables.out_prefix, rundir, 'input'), os.path.join(DualSPHysicsExecutables.out_prefix, outdir, 'sim'), self.dp)
         print(cmd)
         returncode = subprocess.call(cmd, shell=True)
         if returncode != 0:
@@ -138,7 +138,7 @@ class Simulation:
 
         # execute simulation
         print("Simulation...")
-        cmd = '{0} {1} {2} -svres -cpu'.format(DualSPHysicsExecutables.DualSPHysics, os.path.join(outdir, 'sim'), outdir)
+        cmd = '{0} {1} {2} -svres -cpu'.format(DualSPHysicsExecutables.DualSPHysics, os.path.join(DualSPHysicsExecutables.out_prefix, outdir, 'sim'), os.path.join(DualSPHysicsExecutables.out_prefix, outdir))
         returncode = subprocess.call(cmd, shell=True)
         if returncode != 0:
             print("Simulation failed")
@@ -146,7 +146,7 @@ class Simulation:
 
         # execute partvtk
         print("PartVTK...")
-        cmd = '{0} -dirin {1} -savevtk {2} -onlytype:-all,+fluid'.format(DualSPHysicsExecutables.PartVTK, outdir, os.path.join(outdir, 'PartFluid'))
+        cmd = '{0} -dirin {1} -savevtk {2} -onlytype:-all,+fluid'.format(DualSPHysicsExecutables.PartVTK, os.path.join(DualSPHysicsExecutables.out_prefix, outdir), os.path.join(DualSPHysicsExecutables.out_prefix, outdir, 'PartFluid'))
         returncode = subprocess.call(cmd, shell=True)
         if returncode != 0:
             print("PartVTK failed")
@@ -154,7 +154,7 @@ class Simulation:
 
         # execute partvtkout
         print("PartVTKOut...")
-        cmd = '{0} -dirin {1} -filexml  {2} -savevtk {3} -SaveResume {4}'.format(DualSPHysicsExecutables.PartVTKOut, outdir, os.path.join(outdir, 'sim.xml'), os.path.join(outdir, 'PartFluidOut'), os.path.join(outdir, 'ResumeFluidOut'))
+        cmd = '{0} -dirin {1} -filexml  {2} -savevtk {3} -SaveResume {4}'.format(DualSPHysicsExecutables.PartVTKOut, os.path.join(DualSPHysicsExecutables.out_prefix, outdir), os.path.join(DualSPHysicsExecutables.out_prefix, outdir, 'sim.xml'), os.path.join(DualSPHysicsExecutables.out_prefix, outdir, 'PartFluidOut'), os.path.join(DualSPHysicsExecutables.out_prefix, outdir, 'ResumeFluidOut'))
         returncode = subprocess.call(cmd, shell=True)
         if returncode != 0:
             print("PartVTKOut failed")
@@ -163,7 +163,7 @@ class Simulation:
 
         # execute isosurface
         print("PartVTKOut...")
-        cmd = '{0} -dirin {1} -saveiso {2}'.format(DualSPHysicsExecutables.IsoSurface, outdir, os.path.join(outdir, 'FluidIso'))
+        cmd = '{0} -dirin {1} -saveiso {2}'.format(DualSPHysicsExecutables.IsoSurface, os.path.join(DualSPHysicsExecutables.out_prefix, outdir), os.path.join(DualSPHysicsExecutables.out_prefix, outdir, 'FluidIso'))
         returncode = subprocess.call(cmd, shell=True)
         if returncode != 0:
             print("PartVTKOut failed")

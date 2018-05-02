@@ -20,6 +20,6 @@ python simulate.py
 
 * Python 3
 * DualSPHysics 4
-* Ubuntu 16.04 (other linux systems should work) or Windows
-
-MAC OS X is not supported since DualSPHysics cannot be compiled for MAC right now.
+* Ubuntu 16.04 (other linux systems should work) or Windows or Mac
+* Docker *(only Mac)*
+* Docker version of DualSPHysics (can be found here: https://github.com/ammyg/DualSPHysics) *(only Mac)*
