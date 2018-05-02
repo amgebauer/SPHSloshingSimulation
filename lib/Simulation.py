@@ -1,9 +1,12 @@
 import math
+import shutil
+import os
+import subprocess
+from lib.config import DualSPHysicsExecutables
 
 class Simulation:
 
     def __init__(self):
-        print("Hi Simulation")
         self.R = 0.2
         self.H = 0.4
         self.h = 0.1
@@ -12,11 +15,12 @@ class Simulation:
         self.T_end = 10
 
         self.motion = self.default_motion
-        self.motion_R = 0.02
-        self.motion_omega = 2*math.pi*2
+        self.motion_R = 0.025
+        self.motion_omega = 2*math.pi*2*2
 
-        self.input_name = 'def'
-        self.output_name = 'sim'
+        self.dp = 0.01
+
+        self.name = 'unnamed'
 
     
     def create_input_file(self):
@@ -45,7 +49,12 @@ class Simulation:
         dict['dt'] = str(self.dt)
         dict['T_end'] = str(self.T_end)
 
-        self.__generate_file_placeholder('input/template.xml', 'run/{0}.xml'.format(self.input_name), dict)
+        rundir = self.get_run_dir()
+        if not os.path.isdir(rundir):
+            os.mkdir(rundir)
+        infile = os.path.join(rundir, 'input.xml')
+    
+        self.__generate_file_placeholder(os.path.join('input', 'template.xml'), infile, dict)
         self.create_motion_file()
 
 
@@ -96,3 +105,66 @@ class Simulation:
         #return t, 0.0, 0.0
 
         return pos_x, pos_y, pos_z
+
+    def get_run_dir(self):
+        return os.path.join('run', self.name)
+    
+    def get_out_dir(self):
+        return os.path.join('out', self.name)
+    
+
+    def execute(self):
+        # remove old simulation if it exists
+        rundir = self.get_run_dir()
+        outdir = self.get_out_dir()
+
+        if os.path.exists(outdir):
+            shutil.rmtree(outdir)
+
+        # create directory
+        os.mkdir(outdir)
+
+        # create input file
+        self.create_input_file()
+        shutil.copy(os.path.join('run', 'motion.dat'), os.path.join(outdir, 'motion.dat'))
+
+        # execute Gencase
+        cmd = '{0} {1} {2} -save:all -dp:{3}'.format(DualSPHysicsExecutables.GenCase, os.path.join(rundir, 'input'), os.path.join(outdir, 'sim'), self.dp)
+        print(cmd)
+        returncode = subprocess.call(cmd, shell=True)
+        if returncode != 0:
+            print("Gencase failed")
+            exit()
+
+        # execute simulation
+        print("Simulation...")
+        cmd = '{0} {1} {2} -svres -cpu'.format(DualSPHysicsExecutables.DualSPHysics, os.path.join(outdir, 'sim'), outdir)
+        returncode = subprocess.call(cmd, shell=True)
+        if returncode != 0:
+            print("Simulation failed")
+            exit()
+
+        # execute partvtk
+        print("PartVTK...")
+        cmd = '{0} -dirin {1} -savevtk {2} -onlytype:-all,+fluid'.format(DualSPHysicsExecutables.PartVTK, outdir, os.path.join(outdir, 'PartFluid'))
+        returncode = subprocess.call(cmd, shell=True)
+        if returncode != 0:
+            print("PartVTK failed")
+            exit()
+
+        # execute partvtkout
+        print("PartVTKOut...")
+        cmd = '{0} -dirin {1} -filexml  {2} -savevtk {3} -SaveResume {4}'.format(DualSPHysicsExecutables.PartVTKOut, outdir, os.path.join(outdir, 'sim.xml'), os.path.join(outdir, 'PartFluidOut'), os.path.join(outdir, 'ResumeFluidOut'))
+        returncode = subprocess.call(cmd, shell=True)
+        if returncode != 0:
+            print("PartVTKOut failed")
+            exit()
+
+
+        # execute isosurface
+        print("PartVTKOut...")
+        cmd = '{0} -dirin {1} -saveiso {2}'.format(DualSPHysicsExecutables.IsoSurface, outdir, os.path.join(outdir, 'FluidIso'))
+        returncode = subprocess.call(cmd, shell=True)
+        if returncode != 0:
+            print("PartVTKOut failed")
+            exit()

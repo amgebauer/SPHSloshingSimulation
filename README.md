@@ -16,8 +16,8 @@ Execute the simulation with python with the following command:
 python simulate.py
 ```
 
-If you are using windows as operating system, add the names of the DualSPHysics in the
-corresponding section in `simulate.py`.
+If you are using windows as operating system, add the paths of the DualSPHysics executables in the
+corresponding section in `lib/config.py`.
 
 ## Requirements
 
