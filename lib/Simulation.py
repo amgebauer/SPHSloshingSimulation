@@ -51,7 +51,7 @@ class Simulation:
 
         rundir = self.get_run_dir()
         if not os.path.isdir(rundir):
-            os.mkdir(rundir)
+            os.makedirs(rundir)
         infile = os.path.join(rundir, 'input.xml')
     
         self.__generate_file_placeholder(os.path.join('input', 'template.xml'), infile, dict)
@@ -122,7 +122,7 @@ class Simulation:
             shutil.rmtree(outdir)
 
         # create directory
-        os.mkdir(outdir)
+        os.makedirs(outdir)
 
         # create input file
         self.create_input_file()

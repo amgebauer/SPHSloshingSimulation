@@ -16,14 +16,10 @@ Execute the simulation with python with the following command:
 python simulate.py
 ```
 
-If you are using windows as operating system, add the paths of the DualSPHysics executables in the
-corresponding section in `lib/config.py`.
-
 ## Requirements
 
 * Python 3
 * DualSPHysics 4
-* Ubuntu 16.04 (other linux systems should work)
-* Windows (with adaptions, see section Setup)
+* Ubuntu 16.04 (other linux systems should work) or Windows
 
 MAC OS X is not supported since DualSPHysics cannot be compiled for MAC right now.
