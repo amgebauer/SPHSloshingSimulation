@@ -21,7 +21,7 @@ class DualSPHysicsExecutables:
     elif platform.system() == 'Linux':
         out_prefix = '.'
         GenCase = os.path.join('execs', 'GenCase4_linux64')
-        DualSPHysics = os.path.join('execs', 'DualSPHysics4CPU_linux64')
+        DualSPHysics = os.path.join('execs', 'DualSPHysics4_linux64')
         PartVTK = os.path.join('execs', 'PartVTK4_linux64')
         PartVTKOut = os.path.join('execs', 'PartVTKOut4_linux64')
         IsoSurface = os.path.join('execs', 'IsoSurface4_linux64')
