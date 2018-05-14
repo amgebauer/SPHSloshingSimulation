@@ -30,7 +30,7 @@ def motion(t):
 # create simulation for default motion
 sim = Simulation()
 sim.T_end = 10
-sim.dp = 0.0006
+sim.dp = 0.006
 sim.name = 'const-freq-0.5Hz'
 sim.motion_omega = 2*math.pi*0.5
 sim.execute()
