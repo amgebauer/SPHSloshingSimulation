@@ -19,17 +19,18 @@ def motion(t):
     return pos_x, pos_y, pos_z
 
 # create simulation
-sim = Simulation()
-sim.T_end = 50
-sim.dp = 0.006
-sim.motion = motion
-sim.name = 'linear_increasing_angular_velocity'
-sim.execute()
+#sim = Simulation()
+#sim.T_end = 30
+#sim.dp = 0.01
+#sim.motion = motion
+#sim.name = 'linear_increasing_angular_velocity'
+#sim.execute()
+#exit()
 
 # create simulation for default motion
 sim = Simulation()
 sim.T_end = 10
-sim.dp = 0.006
+sim.dp = 0.0006
 sim.name = 'const-freq-0.5Hz'
 sim.motion_omega = 2*math.pi*0.5
 sim.execute()

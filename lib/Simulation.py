@@ -7,7 +7,7 @@ from lib.config import DualSPHysicsExecutables
 class Simulation:
 
     def __init__(self):
-        self.R = 0.2
+        self.R = 0.095
         self.H = 0.4
         self.h = 0.1
 
@@ -15,7 +15,7 @@ class Simulation:
         self.T_end = 10
 
         self.motion = self.default_motion
-        self.motion_R = 0.025
+        self.motion_R = 0.00625
         self.motion_omega = 2*math.pi*2*2
 
         self.dp = 0.01
